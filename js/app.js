@@ -21,7 +21,7 @@ function getVenues() {
         url: `https://api.foursquare.com/v2/venues/explore?client_id=SX1MDAJDOUGKGXC2TDCQCJR4AYYIV5GV2V1KXMWVER5FWNVS&client_secret=KRG35QI0HEINWGGJ2DB1APS032IZJTJ0G5X0H3HLG330YYS3&v=20180323&limit=10&ll=-23.6020717, -46.6763941&query=restaurant`,
         success: function(response) {
             const places = response.response.groups[0].items.map(item => {
-                PlacesService.formatPlace(item);
+                return PlacesService.formatPlace(item);
             });
             PlacesService.setPlaces(places);
         },
@@ -40,21 +40,21 @@ const MarkerService = {
         return this.markers;
     },
 
-    filterMarkers: function(text, map) {
+    filterMarkers: function(text) {
         this.markers.forEach(marker => {
             marker.getTitle().toLowerCase().includes(text.toLowerCase())
-                ? marker.setMap(map)
+                ? marker.setMap(MY_MAP)
                 : marker.setMap(null);
         });
     },
 
-    createMarker: function(place, map) {
-        const infoWindowContent = this.newInfoWindowContent(place.name, place.icon, place.vicinity);
+    createMarker: function(place) {
+        const infoWindowContent = this.newInfoWindowContent(place.name, place.address);
         let marker;
 
         marker = new google.maps.Marker({
             position: place.position,
-            map: map,
+            map: MY_MAP,
             title: place.name,
             animation: google.maps.Animation.DROP,
         });
@@ -63,7 +63,7 @@ const MarkerService = {
 
         function markerClickEvent() {
             infoWindow.setContent(infoWindowContent);
-            infoWindow.open(map, marker);
+            infoWindow.open(MY_MAP, marker);
             marker.setAnimation(google.maps.Animation.BOUNCE);
 
             setTimeout(() => {
@@ -74,10 +74,9 @@ const MarkerService = {
         this.markers.push(marker);
     },
 
-    newInfoWindowContent: function(title, icon, address) {
+    newInfoWindowContent: function(title, address) {
         return `
           <div id="content">
-            <div id="siteNotice><img href="${icon}"></img></div>
             <h3 style="font-size:1.2rem;">${title}</h3>
           <div id="bodyContent">
             <p>${address}</p>
@@ -97,21 +96,21 @@ const PlacesService = {
         return this.places;
     },
 
-    setPlaces(places, map) {
+    setPlaces(places) {
         if (!places) {
             return;
         }
         this.places = places;
         this.places.forEach(place => {
-            this.markerService.createMarker(place, map);
+            this.markerService.createMarker(place);
         });
     },
 
-    getFilteredPlaces: function (map) {
+    getFilteredPlaces: function () {
         const filteredPlaces = this.places.filter(place => {
             return place.name.toLowerCase().includes(this.currentFilter);
         });
-        this.markerService.filterMarkers(this.currentFilter, map);
+        this.markerService.filterMarkers(this.currentFilter);
         return filteredPlaces;
     },
 
