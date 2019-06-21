@@ -25,9 +25,21 @@ html, body {
     height: 100%;
 }
 
+/* side nav materialize fix */
+.side-nav li {
+    padding: 0 30px;
+}
+
+.input-field label:not(.label-icon).active {
+    transform: translateY(-60%) !important;
+}
+
+.margin-top {
+    margin-top: 40px;
+}
+
 #map {
-    /* height: calc(100% - 55px); */
-    height: 100vh;
+    height: calc(100% - 55px);
     width: 100%;
 }
 

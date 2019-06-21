@@ -32,7 +32,6 @@ function getVenues() {
 }
 
 const MarkerService = {
-    // self: this,
 
     markers: [],
 
@@ -135,17 +134,10 @@ class ViewModel {
 
     constructor() {
         this.placesService = PlacesService;
-        this.places = ko.observableArray([]);
-
-        this.init();
-    }
-
-    init() {
-        this.placesService.searchPlace('restaurante', myLatLgn, MY_MAP).then((places) => {
-            this.placesService.setPlaces(places, MY_MAP, infoWindow);
-            this.places(this.placesService.getPlaces());
+        this.places = ko.computed(() => {
+            return this.placesService.getPlaces();
         });
     }
 }
 
-// ko.applyBindings(new ViewModel());
+ko.applyBindings(new ViewModel());
