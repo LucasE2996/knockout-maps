@@ -39,8 +39,7 @@
         <li class="margin-top">
             <div class="row">
                 <div class="input-field">
-                    <input data-bind="textInput: currentFilter" id="first_name2"
-                        type="text" class="validate">
+                    <input data-bind="textInput: currentFilter" id="first_name2" type="text" class="validate">
                     <label class="active" for="first_name2"><i class="material-icons">search</i></label>
                 </div>
             </div>
@@ -49,6 +48,17 @@
             <li class="clickable"><a data-bind="text: name, click: $parent.focusPlace"></a></li>
         </ul>
     </ul>
+
+    <!-- error modal -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Error</h4>
+            <p>We could not get any location :(</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+        </div>
+    </div>
 
 
     <div id="map"></div>
@@ -59,8 +69,8 @@
     <script>
         // materialize side nav initializer
         $(function () {
-            // $('.sidenav-trigger').sidenav('open');
             $(".button-collapse").sideNav();
+            $('#modal1').modal();
         });
     </script>
 </body>
