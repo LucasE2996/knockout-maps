@@ -19,13 +19,13 @@ function getVenues() {
     $.ajax({
         method: 'GET',
         url: `https://api.foursquare.com/v2/venues/explore?client_id=SX1MDAJDOUGKGXC2TDCQCJR4AYYIV5GV2V1KXMWVER5FWNVS&client_secret=KRG35QI0HEINWGGJ2DB1APS032IZJTJ0G5X0H3HLG330YYS3&v=20180323&limit=10&ll=-23.6020717, -46.6763941&query=restaurant`,
-        success: function(response) {
+        success: function (response) {
             const places = response.response.groups[0].items.map(item => {
                 return PlacesService.formatPlace(item);
             });
             PlacesService.setPlaces(places);
         },
-        error: function(e) {
+        error: function (e) {
             console.log(e);
         },
     })
@@ -35,11 +35,11 @@ const MarkerService = {
 
     markers: [],
 
-    getMarkers: function() {
+    getMarkers: function () {
         return this.markers;
     },
 
-    filterMarkers: function(text) {
+    filterMarkers: function (text) {
         this.markers.forEach(marker => {
             marker.getTitle().toLowerCase().includes(text.toLowerCase())
                 ? marker.setMap(MY_MAP)
@@ -47,7 +47,7 @@ const MarkerService = {
         });
     },
 
-    createMarker: function(place) {
+    createMarker: function (place) {
         const infoWindowContent = this.newInfoWindowContent(place.name, place.address);
         let marker;
 
@@ -73,7 +73,7 @@ const MarkerService = {
         this.markers.push(marker);
     },
 
-    newInfoWindowContent: function(title, address) {
+    newInfoWindowContent: function (title, address) {
         return `
           <div id="content">
             <h3 style="font-size:1.2rem;">${title}</h3>
@@ -82,6 +82,14 @@ const MarkerService = {
           </div>
           </div>
         `;
+    },
+
+    focusMarker(name) {
+        this.getMarkers().forEach(marker => {
+            if (marker.title === name) {
+                new google.maps.event.trigger(marker, 'click');
+            }
+        });
     },
 }
 
@@ -95,7 +103,7 @@ const PlacesService = {
         return this.places;
     },
 
-    getCurrentFilter: function() {
+    getCurrentFilter: function () {
         return this.currentFilter;
     },
 
@@ -121,7 +129,7 @@ const PlacesService = {
         this.currentFilter = text.toLowerCase();
     },
 
-    formatPlace: function(item) {
+    formatPlace: function (item) {
         return {
             id: item.venue.id,
             name: item.venue.name,
@@ -131,6 +139,10 @@ const PlacesService = {
                 lng: item.venue.location.lng,
             },
         };
+    },
+
+    focusPlace(name) {
+        this.markerService.focusMarker(name);
     }
 }
 
@@ -143,6 +155,10 @@ class ViewModel {
             this.placesService.setCurrentFilter(this.currentFilter());
             return this.placesService.getFilteredPlaces();
         });
+        this.focusPlace = (data, event) => {
+            this.placesService.focusPlace(data.name);
+            $('.button-collapse').sideNav('hide');
+        }
     }
 
     updatePlaces() {

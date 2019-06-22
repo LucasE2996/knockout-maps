@@ -46,7 +46,7 @@
             </div>
         </li>
         <ul data-bind="foreach: places">
-            <li class="clickable"><a data-bind="text: name"></a></li>
+            <li class="clickable"><a data-bind="text: name, click: $parent.focusPlace"></a></li>
         </ul>
     </ul>
 
