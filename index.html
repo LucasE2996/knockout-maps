@@ -39,7 +39,8 @@
         <li class="margin-top">
             <div class="row">
                 <div class="input-field">
-                    <input value="" id="first_name2" type="text" class="validate">
+                    <input data-bind="textInput: currentFilter" id="first_name2"
+                        type="text" class="validate">
                     <label class="active" for="first_name2"><i class="material-icons">search</i></label>
                 </div>
             </div>
@@ -60,7 +61,6 @@
         $(function () {
             // $('.sidenav-trigger').sidenav('open');
             $(".button-collapse").sideNav();
-            console.log('teste');
         });
     </script>
 </body>

@@ -95,6 +95,10 @@ const PlacesService = {
         return this.places;
     },
 
+    getCurrentFilter: function() {
+        return this.currentFilter;
+    },
+
     setPlaces(places) {
         if (!places) {
             return;
@@ -114,7 +118,7 @@ const PlacesService = {
     },
 
     setCurrentFilter: function (text) {
-        this.currentFilter(text.toLowerCase());
+        this.currentFilter = text.toLowerCase();
     },
 
     formatPlace: function(item) {
@@ -134,11 +138,15 @@ class ViewModel {
 
     constructor() {
         this.placesService = PlacesService;
-        this.places = ko.observableArray([]);
+        this.currentFilter = ko.observable('');
+        this.places = ko.computed(() => {
+            this.placesService.setCurrentFilter(this.currentFilter());
+            return this.placesService.getFilteredPlaces();
+        });
     }
 
     updatePlaces() {
-        this.places(this.placesService.getPlaces());
+        this.currentFilter.notifySubscribers();
     }
 }
 
