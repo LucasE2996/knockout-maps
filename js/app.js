@@ -134,9 +134,11 @@ class ViewModel {
 
     constructor() {
         this.placesService = PlacesService;
-        this.places = ko.computed(() => {
-            return this.placesService.getPlaces();
-        });
+        this.places = ko.observableArray([]);
+    }
+
+    updatePlaces() {
+        this.places(this.placesService.getPlaces());
     }
 }
 

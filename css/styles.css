@@ -46,3 +46,7 @@ html, body {
 #markerHeading {
     font-size: 1.2rem;
 }
+
+.clickable {
+    cursor: pointer;
+}

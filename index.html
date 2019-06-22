@@ -24,8 +24,8 @@
     <nav>
         <div class="nav-wrapper">
             <a href="#!" class="brand-logo center">Logo</a>
-            <a href="#" data-activates="slide-out" class="button-collapse"><i
-                    class="material-icons show-on-large">menu</i></a>
+            <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i
+                    class="material-icons show-on-large" data-bind="click: updatePlaces">menu</i></a>
         </div>
     </nav>
 
@@ -44,6 +44,9 @@
                 </div>
             </div>
         </li>
+        <ul data-bind="foreach: places">
+            <li class="clickable"><a data-bind="text: name"></a></li>
+        </ul>
     </ul>
 
 
