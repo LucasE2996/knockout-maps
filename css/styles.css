@@ -6,6 +6,7 @@ html, body {
 
 .display-none {
     display: none;
+    opacity: 0;
 }
 
 .loading {
@@ -49,4 +50,17 @@ html, body {
 
 .clickable {
     cursor: pointer;
+}
+
+.loader-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.5);
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
 }

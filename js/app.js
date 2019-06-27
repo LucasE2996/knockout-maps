@@ -16,6 +16,7 @@ function initMap() {
 }
 
 function getVenues() {
+    $('.loader-wrapper').removeClass('display-none');
     $.ajax({
         method: 'GET',
         url: `https://api.foursquare.com/v2/venues/explore?client_id=SX1MDAJDOUGKGXC2TDCQCJR4AYYIV5GV2V1KXMWVER5FWNVS&client_secret=KRG35QI0HEINWGGJ2DB1APS032IZJTJ0G5X0H3HLG330YYS3&v=20180323&limit=10&ll=-23.6020717, -46.6763941&query=restaurant`,
@@ -24,6 +25,7 @@ function getVenues() {
                 return PlacesService.formatPlace(item);
             });
             PlacesService.setPlaces(places);
+            $('.loader-wrapper').addClass('display-none');
         },
         error: function (e) {
             $('#modal1 > .modal-content > h4').text(`Error: ${e.status}`)
